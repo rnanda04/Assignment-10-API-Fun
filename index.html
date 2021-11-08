@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Assigment 10: API Fun</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta charset="utf-8"/>
+	<script type="text/javascript">
+		
+
+		function get() {
+			var request = new XMLHttpRequest;
+			//Debugging statement from get_weather_ajax - posted.html
+			console.log("Step 1 - request object created");
+
+			request.open("GET", "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=XWK7O08W7UA1R7I7", true); 
+			//Debugging statement from get_weather_ajax - posted.html
+			console.log("Step 2 - opened request file"); 
+
+
+
+			request.onreadystatechange = function() {
+				//Debugging statement from get_weather_ajax - posted.html
+				console.log("Step 3 - readystatechange event fired."); 
+
+				if (request.readyState == 4 && request.status == 200) {
+					//Debugging statement from get_weather_ajax - posted.html
+					console.log("Step 5 - response received"); 
+					var result = request.responseText; 
+
+					info = JSON.parse(result);
+ 
+					symbol = info["Global Quote"]["01. symbol"];
+					open = info["Global Quote"]["02. open"];
+					high = info["Global Quote"]["03. high"]; 
+					low = info["Global Quote"]["04. low"];
+					price = info["Global Quote"]["05. price"]; 
+					volume = info["Global Quote"]["06. volume"];
+					date = info["Global Quote"]["07. latest trading day"];
+					close = info["Global Quote"]["08. previous close"];
+					change = info["Global Quote"]["09. change"];
+					percent = info["Global Quote"]["10. change percent"];
+
+
+					document.getElementById("data1").innerHTML = "SYMBOL: " + symbol;
+					document.getElementById("data2").innerHTML = "OPEN: " + open;
+					document.getElementById("data3").innerHTML = "HIGH: " + high; 
+					document.getElementById("data4").innerHTML = "LOW: " + low;
+					document.getElementById("data5").innerHTML = "PRICE: " + price; 
+					document.getElementById("data6").innerHTML = "VOLUME: " + volume; 
+					document.getElementById("data7").innerHTML = "LASTEST TRADING DAY: " + date;
+					document.getElementById("data8").innerHTML = "PREVIOUS CLOSE: " + close;
+					document.getElementById("data9").innerHTML = "CHANGE: " + change; 
+					document.getElementById("data10").innerHTML = "PERCENTAGE CHANGE: " + percent; 
+				}
+				else if (request.readyState == 4 && request.status != 200) {
+					document.getElementById("data").innerHTML = "ERROR: unable to read API!";
+				}
+				//else if (request.readyState == 3){
+				//	document.getElementById("data").innerHTML = "ERROR: API unreachable!";
+				//} 
+
+			}
+			request.send(); 
+			//Debugging statement from get_weather_ajax - posted.html
+			console.log("Step 4 - request sent"); 
+
+		}
+
+
+
+	</script>
+
+</head>
+<body onload="get()">
+	<div class="content">
+		<h1>Assignment 10: API Fun</h1>
+		<h3>Stock Choice: International Business Machine (IBM)</h3>
+		<img src="ibm.png">
+	</div>
+	<div class="data">
+		<div id="data1"></div>
+		<div id="data2"></div>
+		<div id="data3"></div>
+		<div id="data4"></div>
+		<div id="data5"></div>
+		<div id="data6"></div>
+		<div id="data7"></div>
+		<div id="data8"></div>
+		<div id="data9"></div>
+		<div id="data10"></div>
+	</div>
+
+	<div class="content">
+		<h1>Questions:</h1>
+		<h2>Describe the API you selected and what it does</h2>
+		<p>The API I selected provides daily metrics of a specific stock. In this case, the selected stock is IBM where its opening, closing, high, and low prices, for example, are provided.</p>
+		<h2>Describe the options you used for the API request</h2>
+		<p>For this API request, I used the "GET" request to process information about a specific stock when processed from the data base.</p>
+		<h2>Give two applications where it would be helpful</h2>
+		<p>This application might be helpful for personal and corporate purposes. In the context of an individual investor, such as myself, this API can be used to create a personal mobile database where information is stored in a centralized location. This individual would then be able to refer to real time information about a stock without having to adapt to another system that might not be efficient or suite his or her needs. In the context of a corporate environment, software engineers can develop a sophisticated terminal where stock information is also displayed, however the terminal takes use of information to create complex mathematical models. In this case, they may also import an API populated with more information to maximize the utlilty of their terminal.</h2>
+		<h2>Cite the website where you found it</h2>
+		<p>URL: <a href="https://www.alphavantage.co/documentation/">https://www.alphavantage.co/documentation/</p>
+	</div>
+</body>
+</html>
